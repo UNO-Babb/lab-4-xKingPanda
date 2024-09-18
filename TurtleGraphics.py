@@ -1,27 +1,64 @@
 #TurtleGraphics.py
-#Name:
-#Date:
-#Assignment:
+#Name:Michael Fuller
+#Date:9/18/2024
+#Assignment:Lab 4
 
-import turtle #needed generally but not in CodeHS
-hideturtle() #hides the default turtle in CodeHS
+import turtle  # needed generally but not in CodeHS
+hideturtle()  # hides the default turtle in CodeHS
 
 def drawSquare(myTurtle, size):
-    for i in range(4):
+    for _ in range(4):
         myTurtle.forward(size)
         myTurtle.right(90)
 
+def drawPolygon(myTurtle, sides, size):
+    angle = 360 / sides
+    for _ in range(sides):
+        myTurtle.forward(size)
+        myTurtle.right(angle)
+
+def fillCorner(myTurtle, size, corner):
+    # Draw the main square
+    drawSquare(myTurtle, size)
+    
+    offset = size / 2
+
+    # Move to the corner
+    myTurtle.penup()
+    if corner == 1:  # Top-left
+        myTurtle.goto(0, 0)
+        
+    elif corner == 2:  # Top-right
+        myTurtle.goto(offset, 0)
+        
+    elif corner == 3:  # Bottom-left
+        myTurtle.goto(0, 0 - offset)
+        
+    elif corner == 4:  # Bottom-right
+        myTurtle.goto(offset, 0 - offset)
+        
+    myTurtle.pendown()
+
+    # Draw and fill the smaller square in the corner
+    myTurtle.begin_fill()
+    drawSquare(myTurtle, offset)
+    myTurtle.end_fill()
+
+def squaresInSquares(myTurtle, size, num):
+    shrink = size / num  #how much each square will shrink
+
+    for i in range(num):
+        drawSquare(myTurtle, size)  # Draw the outer square
+        myTurtle.penup()
+        myTurtle.goto(myTurtle.xcor() + shrink / 2, myTurtle.ycor() - shrink / 2)  # Recenter the turtle
+        myTurtle.pendown()
+        size -= shrink  # Reduce the size for the next square
 
 def main():
     myTurtle = turtle.Turtle()
-    # drawPolygon(myTurtle, 5) #draws a pentagon
-    # drawPolygon(myTurtle, 8) #draws an octogon
-
-    # fillCorner(myTurtle, 2) #draws a square with top right corner filled in.
-    # fillCorner(myTurtle, 3) #draws a square bottom left corner filled in.
-
-    # squaresInSquares(myTurtle, 5) #draws 5 concentric squares
-    # squaresInSquares(myTurtle, 3) #draws 3 concentric squares
-
+    
+    #ENTER TESTS FROM HERE-----------------------------------------
+    fillCorner(myTurtle, 200, 3)
+    #squaresInSquares(myTurtle, 200, 12)  
 
 main()
